@@ -10,6 +10,8 @@ import scipy.spatial
 
 from scipy.cluster.vq import kmeans2
 
+import pandas as pd
+
 
 
 
@@ -52,6 +54,7 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
         # Therefore the size of the is equal to cell_size/magnification_factor (Default: 3)
         kp = [cv2.KeyPoint(x, y, cell_size / 3) for x, y in frames]
 
+        # sift = cv2.SIFT_create()
         sift = cv2.SIFT_create()
 
         sift_features = sift.compute(im_arr, kp)
@@ -110,7 +113,7 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
                 distance=scipy.spatial.distance.cosine(zipped_list[index1][1],zipped_list[index2][1])
                 distance_list.append((distance,zipped_list[index2][0]))
 
-        sorted_list = sorted(distance_list, key = lambda tup: tup[0])
+        sorted_list = sorted(distance_list, key = lambda tup: tup[0], reverse = True)
 
         distance_lists.append(sorted_list)
 
@@ -131,4 +134,49 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
 
 
 
-    return binary_lists
+    return binary_lists, zipped_list, list1, ground_truth_list,distance_list, distance_lists
+
+
+def number_of_articles_per_author( ground_truth_list ):
+    counts = pd.value_counts(ground_truth_list)
+    result_list = []
+    for x in ground_truth_list:
+        result_list.append(counts[x])
+    return result_list
+
+
+# We take the corresponding section from the list by the number of articles per author
+def true_binarylist( binary_list, number_of_articles_per_author ):
+    l = []
+    i = 0
+    for list_1d in binary_list:
+        num = number_of_articles_per_author[i]
+        l.append( list_1d[:num] )
+        i = i + 1
+    return l
+
+
+def main():
+
+    binarylist, zipped_list, list1, ground_truth_list, distance_list, distance_lists= compute_binary_lists(3, 3)
+    print("ground_truth_list: ", ground_truth_list)
+    result_list = number_of_articles_per_author(ground_truth_list)
+    print("number_of_articles_per_author: ", result_list)
+    print("true_binarylist", true_binarylist(binarylist, result_list))
+
+    print("binarylist: ", np.array([x for x in binarylist]) )
+    print(np.shape(binarylist))
+    print("zipped_list: ", np.array([x for x in zipped_list]) )
+    print(np.shape(zipped_list))
+    print("list1: ", (np.array([x for x in list1]) ))
+    print("list1 shape: ", np.shape(list1))
+
+    print("ground_truth_list: ", (np.array([x for x in ground_truth_list])))
+    print("ground_truth_list shape: ", np.shape(ground_truth_list))
+    print(" ")
+    print("///////////distance_list: %s //////////////////"% distance_list)
+    print(" ")
+    print("/////////////distance_lists: %s /////////////////"% distance_lists)
+
+if __name__ == "__main__":
+    main()
