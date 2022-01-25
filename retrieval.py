@@ -43,7 +43,10 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
         # store
         filename = 'extract_text\crop_pic' + str(i) + '.png'
         cv2.imwrite(filename, cropped_image)
-
+    
+    def NormalizeData(data):
+        return (data - np.min(data)) / (np.max(data) - np.min(data))
+    
     def compute_sift_descriptors(im_arr, cell_size=5, step_size=20):
         # Generate dense grid
         frames = [(x, y) for x in np.arange(10, im_arr.shape[1], step_size, dtype=np.float32)
@@ -95,8 +98,8 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
 
         #bag of features repräsentation
         histo = numpy.bincount(labels)
-
-        list1.append(histo)
+        norm_histo = NormalizeData(histo)
+        list1.append(norm_histo)
 
 
 
