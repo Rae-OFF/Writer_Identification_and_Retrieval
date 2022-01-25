@@ -15,21 +15,21 @@ def average_precision(binary_list):
     result = 0
     for list_1d in binary_list:
 
-        print("list_1d: ", list_1d)
+        # print("list_1d: ", list_1d)
 
         for index in range(0,len(list_1d)):
             result = result + precision_at_k(list_1d, index)
 
-            print("precision_at_k(list_1d, %s): " % index, precision_at_k(list_1d, index))
-            print("result: ", result)
+            # print("precision_at_k(list_1d, %s): " % index, precision_at_k(list_1d, index))
+            # print("result: ", result)
 
         ap_of_list_1d = result/len(list_1d)
         l.append(ap_of_list_1d)
         result = 0
 
-        print("ap_of_list_1d: ", ap_of_list_1d)
-        print(" ")
-    print("average_precision: ", l)
+    #     print("ap_of_list_1d: ", ap_of_list_1d)
+    #     print(" ")
+    # print("average_precision: ", l)
     return l
 
 
@@ -42,24 +42,24 @@ def precision_at_k(list_1d, k):
 
 
 # recall
-def mean_recall( binary_list, ):
-    return np.mean( recall(binary_list) )
-
-def recall(binary_list):
-    result = []
-    count = 0
-    for list_1d in binary_list:
-        for x in list_1d:
-            if x:
-                count = count + 1
-        print("number of 1: ", count)
-        print("recall of list_1d: ", count/len(list_1d))
-        result.append(count/len(list_1d))
-
-        print("result: ", result)
-        count = 0
-
-    return result
+# def mean_recall( binary_list, ):
+#     return np.mean( recall(binary_list) )
+#
+# def recall(binary_list):
+#     result = []
+#     count = 0
+#     for list_1d in binary_list:
+#         for x in list_1d:
+#             if x:
+#                 count = count + 1
+#         # print("number of 1: ", count)
+#         # print("recall of list_1d: ", count/len(list_1d))
+#         result.append(count/len(list_1d))
+#
+#         # print("result: ", result)
+#         count = 0
+#
+#     return result
 
 
 
