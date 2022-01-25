@@ -7,12 +7,13 @@ from sklearn.metrics import recall_score
 
 
 # precision
-def mean_average_precision(binary_list):
-    return np.mean( average_precision(binary_list) )
+def mean_average_precision(binary_list,number_of_articles_per_author):
+    return np.mean( average_precision(binary_list, number_of_articles_per_author) )
 
-def average_precision(binary_list):
+def average_precision(binary_list, number_of_articles_per_author):
     l = []
     result = 0
+    i = 0
     for list_1d in binary_list:
 
         # print("list_1d: ", list_1d)
@@ -23,9 +24,10 @@ def average_precision(binary_list):
             # print("precision_at_k(list_1d, %s): " % index, precision_at_k(list_1d, index))
             # print("result: ", result)
 
-        ap_of_list_1d = result/len(list_1d)
+        ap_of_list_1d = result/number_of_articles_per_author[i]
         l.append(ap_of_list_1d)
         result = 0
+        i = i + 1
 
     #     print("ap_of_list_1d: ", ap_of_list_1d)
     #     print(" ")
@@ -42,24 +44,26 @@ def precision_at_k(list_1d, k):
 
 
 # recall
-# def mean_recall( binary_list, ):
-#     return np.mean( recall(binary_list) )
-#
-# def recall(binary_list):
-#     result = []
-#     count = 0
-#     for list_1d in binary_list:
-#         for x in list_1d:
-#             if x:
-#                 count = count + 1
-#         # print("number of 1: ", count)
-#         # print("recall of list_1d: ", count/len(list_1d))
-#         result.append(count/len(list_1d))
-#
-#         # print("result: ", result)
-#         count = 0
-#
-#     return result
+def mean_recall( binary_list, number_of_articles_per_author):
+    return np.mean( recall(binary_list, number_of_articles_per_author) )
+
+def recall(binary_list, number_of_articles_per_author):
+    result = []
+    count = 0
+    i = 0
+    for list_1d in binary_list:
+        for x in list_1d:
+            if x:
+                count = count + 1
+        # print("number of 1: ", count)
+        # print("recall of list_1d: ", count/len(list_1d))
+        result.append(count/number_of_articles_per_author[i])
+        i = i+1
+
+        # print("result: ", result)
+        count = 0
+
+    return result
 
 
 

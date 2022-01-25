@@ -11,18 +11,21 @@ import matplotlib.pyplot as plt
 def main():
 
     #Calculate mAP and mRecall
-    binary_lists, zipped_list, list1, ground_truth_list,distance_list, distance_lists= retrieval.compute_binary_lists(3, 3)
-    retrieval.num_of_writer(ground_truth_list)
-
+    binary_lists, zipped_list, list1, ground_truth_list,distance_list, distance_lists= retrieval.compute_binary_lists(10, 3)
 
     number_of_articles_per_author = retrieval.number_of_articles_per_author(ground_truth_list)
+    print("numver_of_articles_per_author: ", number_of_articles_per_author)
+    print("ground_truth: ", ground_truth_list)
+    name, num = retrieval.number_of_writer(ground_truth_list)
+    print("number of writer: ", num )
+    print("writers' names: ", name)
     # true_binary_list = retrieval.true_binarylist(binary_lists, number_of_articles_per_author)
-    mAP = AP.mean_average_precision(binary_lists)
-    mean_recall = AP.mean_recall(binary_lists)
+    mAP = AP.mean_average_precision(binary_lists, number_of_articles_per_author)
+    mean_recall = AP.mean_recall(binary_lists,number_of_articles_per_author)
     print("////////////////////////////////////")
     print("////////////////////////////////////")
     print("mean average precision: ", mAP)
-    # print("mean recall: ", mean_recall).
+    print("mean recall: ", mean_recall)
     print("////////////////////////////////////")
     print("////////////////////////////////////")
 
@@ -50,9 +53,9 @@ def main():
     print("prediction: ", prediction)
     # check top performing n_neighbors value
     best_k = knn_gscv.best_params_
-    print(best_k)
+    print("best k: ", best_k)
     best_score = knn_gscv.best_score_
-    print(best_score)
+    print("accuracy: ", best_score)
 
 
 
