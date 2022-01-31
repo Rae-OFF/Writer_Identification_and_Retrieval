@@ -101,7 +101,10 @@ def compute_binary_lists(number_of_visual_words,k_means_iterations):
         norm_histo = NormalizeData(histo)
         list1.append(norm_histo)
 
-
+    for i in range(len(list1)):
+        if (len(list1[i])) != number_of_visual_words:
+            while (len(list1[i])) != number_of_visual_words:
+                list1[i] = numpy.append(list1[i],1)
 
 
     distance_lists=[]
